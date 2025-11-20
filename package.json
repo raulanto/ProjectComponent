@@ -1,0 +1,32 @@
+{
+  "name": "ProjectComponent",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "culori": "^4.0.2",
+    "chart.js": "^4.5.1",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@nuxt/ui": "^4.2.0",
+    "@nuxtjs/mdc": "^0.18.4",
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@types/culori": "^4.0.1",
+    "@vueuse/nuxt": "^14.0.0",
+    "chart.js": "^4.5.1",
+    "culori": "^4.0.2",
+    "nuxt": "^4.2.1",
+    "nuxt-shiki": "^0.3.1",
+    "vue": "^3.5.24",
+    "vue-chartjs": "^5.3.3",
+    "vue-router": "^4.6.3"
+  },
+  "devDependencies": {
+    "@iconify-json/heroicons": "^1.2.3",
+    "shiki": "^3.15.0"
+  }
+}
