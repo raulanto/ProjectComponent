@@ -1,3 +1,4 @@
+
 <!-- components/PremiumKpiCard.vue -->
 <script setup lang="ts">
 import {computed, onBeforeUnmount, onMounted, ref, watch} from 'vue'
@@ -29,14 +30,16 @@ interface Props {
     title: string
     value: string | number
     type: ChartType
-    data: number[]
-    doughnutData?: [number, number]
+    data?: number[]
+    doughnutData?: number[]
+    doughnutColors?: string[]
     icon: string
     color?: 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'error'
 }
 
 const props = withDefaults(defineProps<Props>(), {
     color: 'primary',
+    data: () => [],
     doughnutData: () => [85, 15]
 })
 
@@ -125,12 +128,14 @@ const createChart = () => {
 
     // Dona
     if (props.type === 'doughnut') {
+        const bgColors = props.doughnutColors || (props.doughnutData?.length === 2 ? [c.doughnut, c.doughnutBg] : ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'])
+
         chart = new Chart(ctx, {
             type: 'doughnut',
             data: {
                 datasets: [{
-                    data: props.doughnutData,
-                    backgroundColor: [c.doughnut, c.doughnutBg],
+                    data: props.doughnutData || [],
+                    backgroundColor: bgColors,
                     borderWidth: 4,
                     borderColor: 'transparent',
                     borderRadius: 8
@@ -162,7 +167,7 @@ const createChart = () => {
 }
 
 onMounted(createChart)
-watch([colors, () => props.data, () => props.doughnutData], createChart, {deep: true})
+watch([colors, () => props.data, () => props.doughnutData, () => props.doughnutColors], createChart, {deep: true})
 watch(() => colorMode.value, () => setTimeout(createChart, 50))
 onBeforeUnmount(() => chart?.destroy())
 </script>
@@ -178,7 +183,7 @@ onBeforeUnmount(() => chart?.destroy())
     }"
     >
         <!-- Header: título + icono -->
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between w-full">
             <h3 class="text-sm font-medium text-muted">{{ title }}</h3>
                 <UIcon :name="icon" :class="['size-9', `bg-${props.color}`]" />
         </div>
@@ -189,15 +194,18 @@ onBeforeUnmount(() => chart?.destroy())
         </div>
 
         <!-- Gráfico -->
-        <div class="relative -mx-6 -mb-6 mt-4 h-22 sm:h-22">
+        <div :class="[
+            'relative mt-4',
+            type === 'doughnut' ? 'h-32 sm:h-36 flex justify-center items-center' : '-mx-6 -mb-6 h-22 sm:h-22'
+        ]">
             <canvas
                 v-if="type !== 'doughnut'"
                 ref="canvasRef"
                 class="absolute inset-0 h-full w-full"
             />
 
-            <div v-else class="flex h-full items-center justify-center">
-                <div class="h-20 w-20 sm:h-24 sm:w-24">
+            <div v-else class="h-full w-full flex items-center justify-center">
+                 <div class="h-28 w-28 sm:h-32 sm:w-32">
                     <canvas ref="canvasRef"/>
                 </div>
             </div>

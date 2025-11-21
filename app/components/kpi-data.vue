@@ -36,6 +36,17 @@ import PremiumKpiCard from "~/components/ui/card/PremiumKpiCard.vue";
             :doughnut-data="[85, 15]"
         />
 
+        <!-- Dona Multi -->
+        <PremiumKpiCard
+            title="Distribución"
+            value="Multi"
+            type="doughnut"
+            icon="i-heroicons-chart-pie"
+            color="info"
+            :doughnut-data="[30, 20, 25, 25]"
+            :doughnut-colors="['#3b82f6', '#10b981', '#f59e0b', '#ef4444']"
+        />
+
         <!-- Línea -->
         <PremiumKpiCard
             title="Tasa de Rebote"
